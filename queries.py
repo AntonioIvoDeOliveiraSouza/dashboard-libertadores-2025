@@ -1,13 +1,4 @@
 import pandas as pd
-import mysql.connector
-
-mydb = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "",
-    database = "libertadores2025"
-)
-
 #Jogador de cada time
 def jogador_time(mydb):
     query = """
@@ -40,7 +31,7 @@ def gol_time(mydb):
 #Artilheiros
 def artilheiro(mydb):
     query = """
-        SELECT time.nome, jogador.nome, jogador.gols AS gols_no_mata_mata 
+        SELECT time.nome AS clube, jogador.nome AS jogador, jogador.gols AS gols_no_mata_mata 
         FROM time JOIN jogador ON jogador.id_time = time.id_time 
         WHERE gols>2 ORDER BY gols DESC;
     """
