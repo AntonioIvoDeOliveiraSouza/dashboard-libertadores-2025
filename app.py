@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from queries import artilheiro
-from connection import get_connection
+from db_connection import get_connection
 
 conn = get_connection()
 
