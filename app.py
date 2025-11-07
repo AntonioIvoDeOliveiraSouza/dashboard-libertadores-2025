@@ -84,6 +84,10 @@ with col2:
     st.divider()
     st.subheader("Gols como Mandantes/Visitantes")
 
+    color_gols={
+        "gols_como_mandante":"#65b440",
+        "gols_como_visitante": "#b92c2c"
+    }
     df_mandante = gol_mandante(conn)
     df_visitante = gol_visitante(conn)
     merge_df = pd.merge(df_mandante,df_visitante, on='clube', how='outer') #merging both tables
@@ -93,6 +97,7 @@ with col2:
         x='clube',
         y=['gols_como_mandante','gols_como_visitante'],
         barmode='group',
+        color_discrete_map=color_gols,
         labels={'clube':'Clubes','value':'Gols'}
     )
     st.plotly_chart(fig)
