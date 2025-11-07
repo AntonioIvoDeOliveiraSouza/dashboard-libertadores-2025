@@ -8,15 +8,13 @@ st.set_page_config(layout="wide") #because wide is better than stretch
 
 conn = get_connection()
 
-st.title("Estatísticas da Conmebol Libertadores 2025")
+st.title("Estatísticas da Conmebol Libertadores 2025 - Eliminatórias")
 st.divider()
 
 col1,_,col2 = st.columns([2,0.5,2]) #setting a gap
 
 with col1:
-    st.subheader("Artilharia (Eliminatórias)")
-    st.dataframe(artilheiro(conn))
-
+    st.subheader("Artilharia")
     #Artilheiro ploty_bar
     df_artilheiro = artilheiro(conn) #Create dataframe
     color_artilharia = {
@@ -29,6 +27,8 @@ with col1:
     }
     fig = px.bar(df_artilheiro,x="jogador",y="gols_no_mata_mata",color="clube",color_discrete_map=color_artilharia, labels={"jogador": "Artilheiros","gols_no_mata_mata":"Gols"})
     st.plotly_chart(fig)
+
+    st.dataframe(artilheiro(conn))
 
 with col2:
     color_pais = {
@@ -55,16 +55,17 @@ with col2:
     st.header("Times por país")
     df_pais = time_pais(conn)
     df_pais["pais_en"] = df_pais["pais"].map(traducao)
-    plot = px.scatter_geo(
+    plot = px.choropleth(
         df_pais,locations="pais_en", 
         locationmode="country names", 
         scope="south america",
+        hover_data={"clubes":True,"pais_en":False,"pais":False},
         hover_name="pais",
         color="pais",
         color_discrete_map=color_pais,
         labels={"pais_en":"País"}
     )
-    st.plotly_chart(plot, use_container_width=True)
+    st.plotly_chart(plot, width='stretch') #use_container_width will be deprecated
 
     st.dataframe(time_pais(conn))
     
