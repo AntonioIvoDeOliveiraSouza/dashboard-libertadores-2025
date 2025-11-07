@@ -11,9 +11,9 @@ conn = get_connection()
 st.title("Estatísticas da Conmebol Libertadores 2025 - Eliminatórias")
 st.divider()
 
-col1,_,col2 = st.columns([2,0.5,2]) #setting a gap
+tab1,tab2,tab3,tab4 = st.tabs(["Artilharia","Goleadores","Clubes","Gols-Casa/Visitante"])
 
-with col1:
+with tab1:
     st.subheader("Artilharia")
     #Artilheiro ploty_bar
     df_artilheiro = artilheiro(conn) #Create dataframe
@@ -31,7 +31,7 @@ with col1:
     df_artilheiro = df_artilheiro.style.set_properties(**{'color':'gold'})
     st.dataframe(df_artilheiro,hide_index=True)
 
-    st.divider()
+with tab2:
     #JOGADORES
     st.subheader("Goleadores")
 
@@ -40,7 +40,7 @@ with col1:
     
     st.dataframe(df_jogador,hide_index=True)
 
-with col2:
+with tab3:
     color_pais = {
         "Argentina":"#09b2b8",
         "Brasil": "#048a0b",
@@ -80,8 +80,8 @@ with col2:
     df_pais = df_pais.drop(columns=["pais_en"])
     st.dataframe(df_pais,hide_index=True)
 
+with tab4:
     #COMPARISON VISITOR-HOME
-    st.divider()
     st.subheader("Gols como Mandantes/Visitantes")
 
     color_gols={
