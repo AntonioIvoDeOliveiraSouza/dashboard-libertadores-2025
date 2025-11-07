@@ -138,14 +138,12 @@ select distinct fase,avg(gols_casa + gols_fora) as media_de_gol from partida gro
 -- #Quem fez mais gols como mandante
 select time_casa.nome as clube, sum(partida.gols_casa) as gols_como_mandante
 from time as time_casa join partida on time_casa.id_time = partida.id_casa
-where partida.gols_casa>1 
 group by time_casa.nome
 order by gols_como_mandante desc;
 
 -- #Quem fez mais gols como visitante.
 select time_fora.nome as clube, sum(partida.gols_fora) as gols_como_visitante
 from time as time_fora join partida on time_fora.id_time = partida.id_fora
-where partida.gols_fora>1 
 group by time_fora.nome
 order by gols_como_visitante desc;
 

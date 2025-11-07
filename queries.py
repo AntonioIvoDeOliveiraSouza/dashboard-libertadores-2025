@@ -52,8 +52,7 @@ def media_gol(mydb):
 def gol_mandante(mydb):
     query = """
         SELECT time_casa.nome AS clube, SUM(partida.gols_casa) AS gols_como_mandante
-        FROM time AS time_casa JOIN partida ON time_casa.id_time = partida.id_casa
-        WHERE partida.gols_casa>1 
+        FROM time AS time_casa JOIN partida ON time_casa.id_time = partida.id_casa 
         GROUP BY time_casa.nome
         ORDER BY gols_como_mandante DESC;
     """
@@ -64,7 +63,6 @@ def gol_visitante(mydb):
     query = """
     SELECT time_fora.nome AS clube, SUM(partida.gols_fora) AS gols_como_visitante
     FROM time AS time_fora JOIN partida ON time_fora.id_time = partida.id_fora
-    WHERE partida.gols_fora>1 
     GROUP BY time_fora.nome
     ORDER BY gols_como_visitante DESC;
     """
