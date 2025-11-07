@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from queries import artilheiro,time_pais
+from queries import artilheiro,time_pais,jogador_time
 from db_connection import get_connection
 import plotly.express as px
 
@@ -27,8 +27,18 @@ with col1:
     }
     fig = px.bar(df_artilheiro,x="jogador",y="gols_no_mata_mata",color="clube",color_discrete_map=color_artilharia, labels={"jogador": "Artilheiros","gols_no_mata_mata":"Gols"})
     st.plotly_chart(fig)
+    df_artilheiro.rename(columns={'jogador':'Artilheiro','gols_no_mata_mata':'Gols em Mata Mata','clube':'Clube'},inplace=True)
+    df_artilheiro = df_artilheiro.style.set_properties(**{'color':'gold'})
+    st.dataframe(df_artilheiro,hide_index=True)
 
-    st.dataframe(artilheiro(conn))
+    st.divider()
+    #JOGADORES
+    st.subheader("Goleadores")
+
+    df_jogador = jogador_time(conn)
+    df_jogador.rename(columns={'clube':'Clube','jogador':'Jogador','gols':'Gols marcados'},inplace=True)
+    
+    st.dataframe(df_jogador,hide_index=True)
 
 with col2:
     color_pais = {
@@ -67,5 +77,6 @@ with col2:
     )
     st.plotly_chart(plot, width='stretch') #use_container_width will be deprecated
 
-    st.dataframe(time_pais(conn))
+    df_pais = df_pais.drop(columns=["pais_en"])
+    st.dataframe(df_pais,hide_index=True)
     
