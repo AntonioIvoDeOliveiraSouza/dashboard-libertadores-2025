@@ -13,7 +13,7 @@ def jogador_time(mydb):
 def time_pais(mydb):
     query = """
         SELECT pais,count(*) AS quantidade, group_concat(nome) AS clubes
-        FROM time GROUP BY pais ORDER BY clubes DESC;
+        FROM time GROUP BY pais ORDER BY quantidade DESC;
     """
     df = pd.read_sql(query,mydb)
     return df

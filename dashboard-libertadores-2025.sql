@@ -124,7 +124,7 @@ values(1,'Artur',1),
 select time.nome as clube,jogador.nome as jogador from time join jogador on time.id_time = jogador.id_time;
 
 -- #Total de times por país
-select pais,count(*) as quantidade, group_concat(nome) as clubes from time group by pais order by clubes desc;
+select pais,count(*) as quantidade, group_concat(nome) as clubes from time group by pais order by quantidade desc;
 
 -- #Total de gols por time.
 select time.nome, sum(jogador.gols) as gols_marcados from time join jogador on time.id_time = jogador.id_time group by jogador.id_time order by gols_marcados desc;
