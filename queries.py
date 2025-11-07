@@ -2,9 +2,9 @@ import pandas as pd
 #Jogador de cada time
 def jogador_time(mydb):
     query = """
-        SELECT time.nome AS clube,jogador.nome AS jogador 
+        SELECT time.nome AS clube,jogador.nome AS jogador, jogador.gols AS gols
         FROM time JOIN jogador 
-        ON time.id_time = jogador.id_time;
+        ON time.id_time = jogador.id_time ORDER BY gols;
     """
     df = pd.read_sql(query,mydb)
     return df

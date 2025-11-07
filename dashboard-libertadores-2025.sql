@@ -121,7 +121,7 @@ values(1,'Artur',1),
 (16,'Santiago Solari',1);
 
 -- #Jogadores de cada time
-select time.nome as clube,jogador.nome as jogador from time join jogador on time.id_time = jogador.id_time;
+select time.nome as clube,jogador.nome as jogador, jogador.gols as gols from time join jogador on time.id_time = jogador.id_time order by gols;
 
 -- #Total de times por país
 select pais,count(*) as quantidade, group_concat(nome) as clubes from time group by pais order by quantidade desc;
