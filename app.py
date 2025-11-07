@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from queries import artilheiro,time_pais,jogador_time
+from queries import artilheiro,time_pais,jogador_time,gol_mandante,gol_visitante
 from db_connection import get_connection
 import plotly.express as px
 
@@ -79,4 +79,20 @@ with col2:
 
     df_pais = df_pais.drop(columns=["pais_en"])
     st.dataframe(df_pais,hide_index=True)
-    
+
+    #COMPARISON VISITOR-HOME
+    st.divider()
+    st.subheader("Gols como Mandantes/Visitantes")
+
+    df_mandante = gol_mandante(conn)
+    df_visitante = gol_visitante(conn)
+    merge_df = pd.merge(df_mandante,df_visitante, on='clube', how='outer') #merging both tables
+    merge_df = merge_df.fillna(value=0) #treating null cells
+    fig = px.bar(
+        merge_df,
+        x='clube',
+        y=['gols_como_mandante','gols_como_visitante'],
+        barmode='group',
+        labels={'clube':'Clubes','value':'Gols'}
+    )
+    st.plotly_chart(fig)
