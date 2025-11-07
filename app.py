@@ -4,19 +4,24 @@ from queries import artilheiro,time_pais,jogador_time,gol_mandante,gol_visitante
 from db_connection import get_connection
 import plotly.express as px
 
-st.set_page_config(layout="wide") #because wide is better than stretch
-
+#Setting dataframes
 conn = get_connection()
+df_artilheiro = artilheiro(conn) #Create dataframe
+df_jogador = jogador_time(conn)
+df_pais = time_pais(conn)
+df_mandante = gol_mandante(conn)
+df_visitante = gol_visitante(conn)
+
+st.set_page_config(layout="wide") #because wide is better than stretch
 
 st.title("Estatísticas da Conmebol Libertadores 2025 - Eliminatórias")
 st.divider()
 
-tab1,tab2,tab3,tab4 = st.tabs(["Artilharia","Goleadores","Clubes","Gols-Casa/Visitante"])
+tab1,tab2,tab3,tab4 = st.tabs(["Artilharia","Goleadores","Clubes","Gols-Casa/Visitante"],default="Clubes")
 
 with tab1:
     st.subheader("Artilharia")
     #Artilheiro ploty_bar
-    df_artilheiro = artilheiro(conn) #Create dataframe
     color_artilharia = {
         "Palmeiras":"#0EA300",
         "Racing": "#09b2b8",
@@ -35,50 +40,50 @@ with tab2:
     #JOGADORES
     st.subheader("Goleadores")
 
-    df_jogador = jogador_time(conn)
     df_jogador.rename(columns={'clube':'Clube','jogador':'Jogador','gols':'Gols marcados'},inplace=True)
     
     st.dataframe(df_jogador,hide_index=True)
 
 with tab3:
-    color_pais = {
-        "Argentina":"#09b2b8",
-        "Brasil": "#048a0b",
-        "Colômbia": "#4CC952",
-        "Equador": "#18048a",
-        "Paraguai": "#8a0404",
-        "Peru": "#464646",
-        "Uruguai": "#fffb00",
-    }
-    traducao = { #Translation because the data is in portuguese
-        "Brasil": "Brazil",
-        "Argentina": "Argentina",
-        "Uruguai": "Uruguay",
-        "Chile": "Chile",
-        "Paraguai": "Paraguay",
-        "Colômbia": "Colombia",
-        "Equador": "Ecuador",
-        "Peru": "Peru",
-        "Bolívia": "Bolivia",
-        "Venezuela": "Venezuela"
-    }
     st.header("Times por país")
-    df_pais = time_pais(conn)
-    df_pais["pais_en"] = df_pais["pais"].map(traducao)
-    plot = px.choropleth(
-        df_pais,locations="pais_en", 
-        locationmode="country names", 
-        scope="south america",
-        hover_data={"clubes":True,"pais_en":False,"pais":False},
-        hover_name="pais",
-        color="pais",
-        color_discrete_map=color_pais,
-        labels={"pais_en":"País"}
-    )
-    st.plotly_chart(plot, width='stretch') #use_container_width will be deprecated
-
-    df_pais = df_pais.drop(columns=["pais_en"])
-    st.dataframe(df_pais,hide_index=True)
+    col1,col2 = st.columns(2)
+    with col1:
+        color_pais = {
+            "Argentina":"#09b2b8",
+            "Brasil": "#048a0b",
+            "Colômbia": "#4CC952",
+            "Equador": "#18048a",
+            "Paraguai": "#8a0404",
+            "Peru": "#464646",
+            "Uruguai": "#fffb00",
+        }
+        traducao = { #Translation because the data is in portuguese
+            "Brasil": "Brazil",
+            "Argentina": "Argentina",
+            "Uruguai": "Uruguay",
+            "Chile": "Chile",
+            "Paraguai": "Paraguay",
+            "Colômbia": "Colombia",
+            "Equador": "Ecuador",
+            "Peru": "Peru",
+            "Bolívia": "Bolivia",
+            "Venezuela": "Venezuela"
+        }
+        df_pais["pais_en"] = df_pais["pais"].map(traducao)
+        plot = px.choropleth(
+            df_pais,locations="pais_en", 
+            locationmode="country names", 
+            scope="south america",
+            hover_data={"clubes":True,"pais_en":False,"pais":False},
+            hover_name="pais",
+            color="pais",
+            color_discrete_map=color_pais,
+            labels={"pais_en":"País"}
+        )
+        st.plotly_chart(plot, width='stretch') #use_container_width will be deprecated
+    with col2:
+        df_pais = df_pais.drop(columns=["pais_en"])
+        st.dataframe(df_pais,hide_index=True)
 
 with tab4:
     #COMPARISON VISITOR-HOME
@@ -88,8 +93,6 @@ with tab4:
         "gols_como_mandante":"#65b440",
         "gols_como_visitante": "#b92c2c"
     }
-    df_mandante = gol_mandante(conn)
-    df_visitante = gol_visitante(conn)
     merge_df = pd.merge(df_mandante,df_visitante, on='clube', how='outer') #merging both tables
     merge_df = merge_df.fillna(value=0) #treating null cells
     fig = px.bar(
