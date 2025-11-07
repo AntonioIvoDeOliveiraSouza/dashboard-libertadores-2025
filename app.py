@@ -17,6 +17,14 @@ st.set_page_config(layout="wide") #because wide is better than stretch
 st.title("Estatísticas da Conmebol Libertadores 2025 - Eliminatórias")
 st.divider()
 
+col1,col2,col3 = st.columns(3)
+with col1:
+    st.metric("Total de Gols",df_artilheiro['gols_no_mata_mata'].sum())
+with col2:
+    st.metric("Média por jogador",df_artilheiro['gols_no_mata_mata'].mean())
+with col3:
+    st.metric("Artilheiro Líder",df_artilheiro.iloc[0]['jogador'])
+
 tab1,tab2,tab3,tab4 = st.tabs(["Artilharia","Goleadores","Clubes","Gols-Casa/Visitante"],default="Clubes")
 
 with tab1:
