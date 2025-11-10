@@ -63,7 +63,7 @@ with tab3:
             "Equador": "#18048a",
             "Paraguai": "#8a0404",
             "Peru": "#464646",
-            "Uruguai": "#fffb00",
+            "Uruguai": "#daa520",
         }
         traducao = { #Translation because the data is in portuguese
             "Brasil": "Brazil",
@@ -89,14 +89,27 @@ with tab3:
             labels={"pais_en":"País"}
         )
 
-        plot.update_layout(
+        plot.update_layout( #updating layout map - colors,hover etc
             geo = dict(bgcolor = 'rgba(0,0,0,0)', lakecolor = 'rgba(0,0,0,0)'),
-            paper_bgcolor = 'rgba(0,0,0,0)'
+            paper_bgcolor = 'rgba(0,0,0,0)',
+            #hover layout
+            hoverlabel = dict(
+                align = 'left',
+                bgcolor = 'rgba(218, 165, 32, 1)',
+                bordercolor = 'rgba(0,0,0,1)',
+                font_color = 'rgba(0,0,0,1)',
+                font_family = 'Kanit',
+                font_size = 15
+            )
         )
 
-        plot.update_geos(
+        plot.update_geos( #updating map parameters - borders etc
             countrycolor='rgba(215,215,0,1)',
             countrywidth = 4
+        )
+
+        plot.update_traces( #updating hover box
+            hovertemplate="<b>%{hovertext}</b><br>Clubes: %{customdata[0]}<extra></extra>"
         )
 
         st.plotly_chart(plot, width='stretch') #use_container_width will be deprecated
