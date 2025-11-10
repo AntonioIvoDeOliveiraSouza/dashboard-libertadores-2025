@@ -88,6 +88,17 @@ with tab3:
             color_discrete_map=color_pais,
             labels={"pais_en":"País"}
         )
+
+        plot.update_layout(
+            geo = dict(bgcolor = 'rgba(0,0,0,0)', lakecolor = 'rgba(0,0,0,0)'),
+            paper_bgcolor = 'rgba(0,0,0,0)'
+        )
+
+        plot.update_geos(
+            countrycolor='rgba(215,215,0,1)',
+            countrywidth = 4
+        )
+
         st.plotly_chart(plot, width='stretch') #use_container_width will be deprecated
     with col2:
         df_pais = df_pais.drop(columns=["pais_en"])
