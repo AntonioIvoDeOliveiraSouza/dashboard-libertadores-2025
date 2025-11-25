@@ -134,7 +134,7 @@ Ajuste as credenciais em db_connection.py conforme seu ambiente.
 A página utiliza st.set_page_config(layout="wide") para melhor aproveitamento horizontal.
 
 ## Exemplos de Telas
-![alt text](prints\main.png "Menu")
-![alt text](prints\goals_analytics.png "Gols como mandantes e visitantes")
-![alt text](prints\scores.png "Marcadores")
-![alt text](prints\db_query.png "Query do banco de dados")
+![alt text](prints/main.png "Menu")
+![alt text](prints/goals_analytics.png "Gols como mandantes e visitantes")
+![alt text](prints/scores.png "Marcadores")
+![alt text](prints/db_query.png "Query do banco de dados")
