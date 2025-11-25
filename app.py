@@ -33,6 +33,20 @@ page_bg_img = '''
 '''
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
+#TABS Color
+st.markdown( """
+<style>
+    .stTabs [data-baseweb="tab"] p {
+        color: #FFFFFF !important; 
+        font-weight: bold !important;
+    }
+
+    .stTabs [aria-selected="true"] p {
+        color: #FC6603 !important;
+    }
+</style>
+""",unsafe_allow_html=True)
+
 st.title("Estatísticas da Conmebol Libertadores 2025 - Eliminatórias")
 st.divider()
 
