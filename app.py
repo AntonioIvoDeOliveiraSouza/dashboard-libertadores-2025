@@ -14,6 +14,25 @@ df_visitante = gol_visitante(conn)
 
 st.set_page_config(layout="wide") #because wide is better than stretch
 
+#CSS EFFECTS - REMOVING HEADER + ADDING BACKGROUND
+transparent_header = '''
+<style>
+    [data-testId="stHeader"]{
+        background: rgba(0,0,0,0)
+    }
+</style>
+'''
+st.markdown(transparent_header,unsafe_allow_html=True)
+page_bg_img = '''
+<style>
+.stApp{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(255, 155, 0, 0.5)), url("https://cdn.conmebol.com/wp-content/uploads/2022/06/banner_libertadores_kv.jpg");
+    background-size: cover;
+}
+</style>
+'''
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 st.title("Estatísticas da Conmebol Libertadores 2025 - Eliminatórias")
 st.divider()
 
